@@ -4,7 +4,7 @@ A modern, responsive therapy practice website built with **Next.js 14**, **TypeS
 
 ## 🌐 Live Demo
 
-🔗 **Deployed Site:** [https://dr-serena-blake.vercel.app](https://dr-serena-blake.vercel.app)
+🔗 **Deployed Site:** [https://dr-serena-blake-phi.vercel.app/](https://dr-serena-blake-phi.vercel.app/)
 
 📹 **Demo Video:** [View Project Walkthrough](https://your-video-link.com)
 
@@ -216,10 +216,10 @@ vercel deploy
 
 **Ghanshyam Singh** - Full Stack Developer
 
-- 📧 **Email:** [your.email@example.com](mailto:ghanshyam2005singh@gmail.com)
-- 💼 **LinkedIn:** [linkedin.com/in/yourprofile](https://linkedin.com/in/ghanshyam-singh-b014232b2)
-- 🐙 **GitHub:** [@yourusername](https://github.com/ghanshyam2005singh)
-- 🌐 **Portfolio:** [yourportfolio.com](https://iron-industry.tech)
+- 📧 **Email:** [ghanshyam2005singh@gmail.com](mailto:ghanshyam2005singh@gmail.com)
+- 💼 **LinkedIn:** [https://linkedin.com/in/ghanshyam-singh-b014232b2](https://linkedin.com/in/ghanshyam-singh-b014232b2)
+- 🐙 **GitHub:** [@ghanshyam2005singh](https://github.com/ghanshyam2005singh)
+- 🌐 **Portfolio:** [iron-industry.tech](https://iron-industry.tech)
 
 ---
 
