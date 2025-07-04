@@ -1,7 +1,43 @@
 'use client';
 import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+
+// Scroll Animation Hook
+export const useScrollAnimation = (threshold = 0.1) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold }
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [threshold]);
+
+  return { ref, isVisible };
+};
 
 export default function Services() {
+  // Animation hooks for different sections
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation(0.2);
+  const { ref: servicesRef, isVisible: servicesVisible } = useScrollAnimation(0.1);
+  const { ref: feesRef, isVisible: feesVisible } = useScrollAnimation(0.3);
+
   const services = [
     {
       title: "Anxiety & Stress Management",
@@ -38,8 +74,16 @@ export default function Services() {
   return (
     <section id="services" className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-12 lg:mb-16">
+        
+        {/* Section Header - Animated */}
+        <div 
+          ref={headerRef}
+          className={`text-center mb-12 lg:mb-16 transition-all duration-1000 ease-out ${
+            headerVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-8'
+          }`}
+        >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-gray-900 mb-4">
             Our Services
           </h2>
@@ -49,16 +93,30 @@ export default function Services() {
           </p>
         </div>
 
-        {/* Services Grid - Mobile Optimized */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-16 lg:mb-20">
+        {/* Services Grid - Animated with staggered cards */}
+        <div 
+          ref={servicesRef}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-16 lg:mb-20"
+        >
           {services.map((service, index) => (
-            <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+            <div 
+              key={index} 
+              className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-700 ease-out overflow-hidden ${
+                servicesVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}
+              style={{
+                transitionDelay: servicesVisible ? `${index * 200 + 300}ms` : '0ms'
+              }}
+            >
               {/* Image */}
               <div className="relative h-48 sm:h-56 lg:h-64">
                 <Image 
                   src={service.img} 
                   alt={service.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20"></div>
                 <div className="absolute bottom-4 left-4 right-4">
@@ -81,8 +139,15 @@ export default function Services() {
           ))}
         </div>
 
-        {/* Session Fees & Office Hours - Mobile Optimized */}
-        <div className="bg-gray-800 rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-12 text-white">
+        {/* Session Fees & Office Hours - Animated */}
+        <div 
+          ref={feesRef}
+          className={`bg-gray-800 rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-12 text-white transition-all duration-1000 ease-out ${
+            feesVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-12'
+          }`}
+        >
           <div className="text-center mb-8 lg:mb-12">
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
               Session Fees & Availability
@@ -93,8 +158,18 @@ export default function Services() {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
-            {/* Session Fees */}
-            <div className="bg-gray-700 rounded-xl lg:rounded-2xl p-6 lg:p-8">
+            
+            {/* Session Fees - Animated */}
+            <div 
+              className={`bg-gray-700 rounded-xl lg:rounded-2xl p-6 lg:p-8 transition-all duration-700 ease-out ${
+                feesVisible 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 -translate-x-8'
+              }`}
+              style={{
+                transitionDelay: feesVisible ? '400ms' : '0ms'
+              }}
+            >
               <h4 className="text-xl lg:text-2xl font-semibold mb-6 text-center">Session Fees</h4>
               <div className="space-y-4">
                 <div className="flex justify-between items-center py-2">
@@ -110,8 +185,17 @@ export default function Services() {
               </div>
             </div>
 
-            {/* Office Hours */}
-            <div className="bg-gray-700 rounded-xl lg:rounded-2xl p-6 lg:p-8">
+            {/* Office Hours - Animated */}
+            <div 
+              className={`bg-gray-700 rounded-xl lg:rounded-2xl p-6 lg:p-8 transition-all duration-700 ease-out ${
+                feesVisible 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 translate-x-8'
+              }`}
+              style={{
+                transitionDelay: feesVisible ? '600ms' : '0ms'
+              }}
+            >
               <h4 className="text-xl lg:text-2xl font-semibold mb-6 text-center">Office Hours</h4>
               <div className="space-y-6">
                 <div>
@@ -128,7 +212,17 @@ export default function Services() {
             </div>
           </div>
 
-          <div className="text-center mt-8 lg:mt-12">
+          {/* CTA Button - Animated */}
+          <div 
+            className={`text-center mt-8 lg:mt-12 transition-all duration-700 ease-out ${
+              feesVisible 
+                ? 'opacity-100 scale-100' 
+                : 'opacity-0 scale-95'
+            }`}
+            style={{
+              transitionDelay: feesVisible ? '800ms' : '0ms'
+            }}
+          >
             <button className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 hover:shadow-lg transform hover:scale-105">
               Schedule Your Session
             </button>

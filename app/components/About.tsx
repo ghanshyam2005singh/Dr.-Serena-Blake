@@ -1,12 +1,56 @@
 'use client';
 import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+
+export const useScrollAnimation = (threshold = 0.1) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold }
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [threshold]);
+
+  return { ref, isVisible };
+};
 
 export default function About() {
+  // Actually USE the hook - this was missing!
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation(0.2);
+  const { ref: imageRef, isVisible: imageVisible } = useScrollAnimation(0.3);
+  const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation(0.2);
+  const { ref: statsRef, isVisible: statsVisible } = useScrollAnimation(0.4);
+
   return (
-    <section className="bg-white py-16 lg:py-24">
+    <section id="about" className="bg-white py-16 lg:py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12 lg:mb-16">
+        
+        {/* Section Header - NOW with animation */}
+        <div 
+          ref={headerRef}
+          className={`text-center mb-12 lg:mb-16 transition-all duration-1000 ease-out ${
+            headerVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-8'
+          }`}
+        >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-gray-900 mb-4">
             About Dr. Serena Blake
           </h2>
@@ -16,12 +60,21 @@ export default function About() {
         {/* Mobile-First Design */}
         <div className="space-y-12 lg:space-y-0 lg:grid lg:grid-cols-5 lg:gap-16 lg:items-center">
           
-          {/* Image Section - Clean and Simple */}
-          <div className="lg:col-span-2">
+          {/* Image Section - NOW with animation */}
+          <div 
+            ref={imageRef}
+            className={`lg:col-span-2 transition-all duration-1000 ease-out delay-200 ${
+              imageVisible 
+                ? 'opacity-100 translate-x-0' 
+                : 'opacity-0 -translate-x-8'
+            }`}
+          >
             <div className="relative w-full max-w-xs mx-auto lg:max-w-none">
               <Image 
                 src="/dr-serena.jpg" 
                 alt="Dr. Serena Blake, Licensed Clinical Psychologist" 
+                width={400}
+                height={400}
                 className="w-full aspect-square object-cover rounded-3xl shadow-2xl"
               />
               {/* Simple accent */}
@@ -32,8 +85,15 @@ export default function About() {
           {/* Content Section */}
           <div className="lg:col-span-3 space-y-8">
             
-            {/* Main Content */}
-            <div className="space-y-6">
+            {/* Main Content - NOW with animation */}
+            <div 
+              ref={contentRef}
+              className={`space-y-6 transition-all duration-1000 ease-out delay-400 ${
+                contentVisible 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 translate-x-8'
+              }`}
+            >
               <div className="bg-gray-50 rounded-2xl p-6 lg:p-8">
                 <p className="text-gray-700 text-base lg:text-lg leading-relaxed">
                   <span className="font-semibold text-gray-900">Dr. Serena Blake</span> is a licensed clinical psychologist (PsyD) based in Los Angeles, CA, with <span className="text-teal-600 font-medium">eight years of experience</span> and over <span className="text-teal-600 font-medium">500 client sessions</span>.
@@ -49,20 +109,35 @@ export default function About() {
               </p>
             </div>
 
-            {/* Credentials - Clean Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-teal-50 rounded-xl p-4 text-center">
-                <div className="text-2xl font-bold text-teal-700 mb-1">8+</div>
-                <div className="text-sm text-teal-600 font-medium">Years</div>
-              </div>
-              <div className="bg-teal-50 rounded-xl p-4 text-center">
-                <div className="text-2xl font-bold text-teal-700 mb-1">500+</div>
-                <div className="text-sm text-teal-600 font-medium">Sessions</div>
-              </div>
-              <div className="bg-teal-50 rounded-xl p-4 text-center">
-                <div className="text-xl font-bold text-teal-700 mb-1">PsyD</div>
-                <div className="text-sm text-teal-600 font-medium">Licensed</div>
-              </div>
+            {/* Credentials - NOW with animation */}
+            <div 
+              ref={statsRef}
+              className={`grid grid-cols-1 sm:grid-cols-3 gap-4 transition-all duration-1000 ease-out delay-600 ${
+                statsVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}
+            >
+              {[
+                { value: '8+', label: 'Years' },
+                { value: '500+', label: 'Sessions' },
+                { value: 'PsyD', label: 'Licensed' }
+              ].map((stat, index) => (
+                <div 
+                  key={stat.label}
+                  className={`bg-teal-50 rounded-xl p-4 text-center transition-all duration-500 ease-out ${
+                    statsVisible 
+                      ? 'opacity-100 scale-100' 
+                      : 'opacity-0 scale-95'
+                  }`}
+                  style={{
+                    transitionDelay: statsVisible ? `${(index + 1) * 100 + 600}ms` : '0ms'
+                  }}
+                >
+                  <div className="text-2xl font-bold text-teal-700 mb-1">{stat.value}</div>
+                  <div className="text-sm text-teal-600 font-medium">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

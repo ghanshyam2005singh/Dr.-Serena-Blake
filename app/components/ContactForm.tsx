@@ -1,5 +1,5 @@
 'use client';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 interface FormData {
@@ -20,7 +20,42 @@ interface Errors {
   agreeToContact?: string;
 }
 
+// Scroll Animation Hook
+const useScrollAnimation = (threshold = 0.1) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold }
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [threshold]);
+
+  return { ref, isVisible };
+};
+
 export default function ContactForm() {
+  // Animation hooks
+  const { ref: quoteRef, isVisible: quoteVisible } = useScrollAnimation(0.2);
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation(0.3);
+  const { ref: formRef, isVisible: formVisible } = useScrollAnimation(0.1);
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
@@ -122,12 +157,18 @@ export default function ContactForm() {
   return (
     <section id="contact" className="relative">
       {/* Quote Section */}
-      <div className="relative h-64 sm:h-80 lg:h-96 bg-gray-900 overflow-hidden">
+      <div 
+        ref={quoteRef}
+        className={`relative h-64 sm:h-80 lg:h-96 bg-gray-900 overflow-hidden transition-all duration-1000 ease-out ${
+          quoteVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
         <div className="absolute inset-0">
           <Image 
             src="/quote.jpg" 
             alt="Therapy background" 
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70"></div>
         </div>
@@ -148,7 +189,12 @@ export default function ContactForm() {
       {/* Contact Section */}
       <div className="bg-gray-50 py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8 sm:mb-12">
+          <div 
+            ref={headerRef}
+            className={`text-center mb-8 sm:mb-12 transition-all duration-1000 ease-out ${
+              headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+          >
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-gray-900 mb-4">
               Get In Touch
             </h2>
@@ -165,7 +211,12 @@ export default function ContactForm() {
             </div>
           )}
 
-          <div className="bg-white rounded-xl lg:rounded-2xl shadow-xl overflow-hidden">
+          <div 
+            ref={formRef}
+            className={`bg-white rounded-xl lg:rounded-2xl shadow-xl overflow-hidden transition-all duration-1000 ease-out ${
+              formVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+          >
             <div className="grid grid-cols-1 lg:grid-cols-5">
               
               {/* Contact Info */}
