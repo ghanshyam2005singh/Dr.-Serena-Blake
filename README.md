@@ -4,7 +4,8 @@ A modern, responsive therapy practice website built with **Next.js 14**, **TypeS
 
 ## 🌐 Live Demo
 
-🔗 **Deployed Site:** [https://dr-serena-blake-phi.vercel.app/](https://dr-serena-blake-phi.vercel.app/)
+🔗 **Deployed Site:** Modern: [https://dr-serena-blake-phi.vercel.app/](https://dr-serena-blake-phi.vercel.app/)
+old: [https://dr-serena-blake-git-old-ui-ghanshyam-singhs-projects.vercel.app/](https://dr-serena-blake-git-old-ui-ghanshyam-singhs-projects.vercel.app/)
 
 📹 **Demo Video:** [View Project Walkthrough](https://your-video-link.com)
 
