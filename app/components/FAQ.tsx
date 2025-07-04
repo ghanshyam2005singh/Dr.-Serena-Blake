@@ -50,18 +50,6 @@ export default function FAQ() {
     {
       question: "What is your cancellation policy?",
       answer: "24-hour notice is required for cancellations or rescheduling. This policy helps ensure that appointment times remain available for all clients and allows for proper scheduling management."
-    },
-    {
-      question: "How long are therapy sessions?",
-      answer: "Individual therapy sessions are 50 minutes long, while couples therapy sessions are 80 minutes to allow adequate time for both partners to be heard and work through relationship dynamics."
-    },
-    {
-      question: "What should I expect in my first session?",
-      answer: "Your first session will focus on understanding your concerns, goals, and background. We'll discuss your therapy expectations, establish treatment goals, and begin building the therapeutic relationship that will support your healing journey."
-    },
-    {
-      question: "Do you provide emergency services?",
-      answer: "While I don't provide 24/7 crisis services, I can be reached via email for urgent matters between sessions. For immediate mental health emergencies, please contact 988 (Suicide & Crisis Lifeline) or go to your nearest emergency room."
     }
   ];
 
