@@ -24,22 +24,22 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="section-padding pb-10 bg-gray-50">
-      <div className="container-max">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl pt-20 font-bold text-gray-800 mb-6">
+    <section id="faq" className="py-16 lg:py-24 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl lg:text-4xl font-sans font-semibold text-gray-900">
             Frequently Asked Questions
           </h2>
         </div>
 
         <div className="max-w-4xl mx-auto">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-sm mb-4 overflow-hidden">
+            <div key={index} className="border-b border-gray-200 mb-6">
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
+                className="w-full py-6 text-left flex justify-between items-center"
               >
-                <h3 className="text-lg font-semibold text-gray-800 pr-4">
+                <h3 className="text-xl font-sans font-medium text-gray-900 pr-4">
                   {faq.question}
                 </h3>
                 <svg
@@ -55,8 +55,8 @@ export default function FAQ() {
               </button>
               
               {openIndex === index && (
-                <div className="px-6 pb-6">
-                  <p className="text-gray-600 leading-relaxed">
+                <div className="pb-6">
+                  <p className="text-gray-600 text-lg leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>
