@@ -2,7 +2,7 @@
   "name": "serena-blake",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ghanshyam2005singh.github.io/Dr.-Serena-Blake",
+  "homepage": "https://ghanshyam2005singh.github.io/Dr.-Serena-Blake/app/page.tsx",
   "scripts": {
   "dev": "next dev",
   "build": "next build",
