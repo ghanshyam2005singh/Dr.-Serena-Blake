@@ -4,13 +4,14 @@
   "private": true,
   "homepage": "https://ghanshyam2005singh.github.io/Dr.-Serena-Blake",
   "scripts": {
-     "predeploy": "npm run build",
-  "deploy": "gh-pages -d build",
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
+  "dev": "next dev",
+  "build": "next build",
+  "export": "next export",
+  "start": "next start",
+  "lint": "next lint",
+  "predeploy": "npm run build && npm run export",
+  "deploy": "gh-pages -d out"
+},
   "dependencies": {
     "aos": "^2.3.4",
     "next": "15.3.4",
